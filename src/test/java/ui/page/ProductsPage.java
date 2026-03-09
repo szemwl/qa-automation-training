@@ -2,6 +2,10 @@ package ui.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductsPage extends BasePage {
 
@@ -14,10 +18,6 @@ public class ProductsPage extends BasePage {
 
     public void addProductToCart(String productId) {
         click(addToCartButton(productId));
-    }
-
-    public void removeProduct(String productId) {
-        click(removeButton(productId));
     }
 
     private By addToCartButton(String productId) {
@@ -45,5 +45,12 @@ public class ProductsPage extends BasePage {
 
     public void openCart() {
         click(cartLink);
+    }
+
+    public List<String> getAllProductIds() {
+        List<WebElement> buttons = findAll(By.cssSelector("button[id^='add-to-cart-']"));
+        return buttons.stream()
+                .map(e -> e.getAttribute("id").replace("add-to-cart-", ""))
+                .collect(Collectors.toList());
     }
 }

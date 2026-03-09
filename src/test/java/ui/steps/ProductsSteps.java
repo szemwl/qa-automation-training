@@ -4,27 +4,29 @@ import org.openqa.selenium.WebDriver;
 import ui.page.CartPage;
 import ui.page.ProductsPage;
 
-public class ProductSteps {
+import java.util.List;
+
+public class ProductsSteps {
 
     private final ProductsPage productsPage;
     private final CartPage cartPage;
 
-    public ProductSteps(WebDriver driver) {
+    public ProductsSteps(WebDriver driver) {
         this.productsPage = new ProductsPage(driver);
         this.cartPage = new CartPage(driver);
     }
 
-    public ProductSteps addProductToCart(String productId) {
+    public ProductsSteps addProductToCart(String productId) {
         productsPage.addProductToCart(productId);
         return this;
     }
 
-    public ProductSteps openCart() {
+    public ProductsSteps openCart() {
         productsPage.openCart();
         return this;
     }
 
-    public ProductSteps removeProductFromCart(String productId) {
+    public ProductsSteps removeProductFromCart(String productId) {
         cartPage.removeProduct(productId);
         return this;
     }
@@ -47,5 +49,26 @@ public class ProductSteps {
 
     public int getCartItemsCount() {
         return cartPage.getCartItemsCount();
+    }
+
+    public List<String> getAllProductIds() {
+        return productsPage.getAllProductIds();
+    }
+
+    public ProductsSteps continueShopping() {
+        cartPage.continueShopping();
+        return this;
+    }
+
+    public boolean isProductNameVisibleInCart(String productId) {
+        return cartPage.isProductNameVisible(productId);
+    }
+
+    public boolean isProductPriceVisibleInCart(String productId) {
+        return cartPage.isProductPriceVisible(productId);
+    }
+
+    public boolean isRemoveButtonVisibleInCart(String productId) {
+        return cartPage.isRemoveButtonVisible(productId);
     }
 }
