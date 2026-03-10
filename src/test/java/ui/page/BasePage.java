@@ -30,7 +30,7 @@ public class BasePage {
     }
 
     protected WebElement find(By locator) {
-        return driver.findElement(locator);
+        return waitVisible(locator);
     }
 
     protected List<WebElement> findAll(By locator) {

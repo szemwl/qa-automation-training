@@ -43,7 +43,7 @@ public class ProductsSteps {
         return productsPage.getCartCounter();
     }
 
-    public int getCartPageCartCounter() {
+    public int getCartBadgeCount() {
         return cartPage.getCartCounter();
     }
 
@@ -70,5 +70,10 @@ public class ProductsSteps {
 
     public boolean isRemoveButtonVisibleInCart(String productId) {
         return cartPage.isRemoveButtonVisible(productId);
+    }
+
+    public ProductsSteps checkout() {
+        cartPage.checkout();
+        return this;
     }
 }

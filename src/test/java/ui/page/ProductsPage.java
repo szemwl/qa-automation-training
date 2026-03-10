@@ -11,6 +11,7 @@ public class ProductsPage extends BasePage {
 
     private final By cartBadge = By.className("shopping_cart_badge");
     private final By cartLink = By.className("shopping_cart_link");
+    private final By inventoryList = By.className("shopping_cart_link");
 
     public ProductsPage(WebDriver driver) {
         super(driver);
@@ -40,7 +41,7 @@ public class ProductsPage extends BasePage {
         if (findAll(cartBadge).isEmpty()) {
             return 0;
         }
-        return Integer.parseInt(find(cartBadge).getText());
+        return Integer.parseInt(waitVisible(cartBadge).getText());
     }
 
     public void openCart() {
@@ -48,9 +49,12 @@ public class ProductsPage extends BasePage {
     }
 
     public List<String> getAllProductIds() {
-        List<WebElement> buttons = findAll(By.cssSelector("button[id^='add-to-cart-']"));
-        return buttons.stream()
-                .map(e -> e.getAttribute("id").replace("add-to-cart-", ""))
+        List<WebElement> items = findAll(By.className("inventory_item"));
+        return items.stream()
+                .map(item -> item.findElement(By.cssSelector("button"))
+                        .getAttribute("id")
+                        .replace("add-to-cart-", "")
+                        .replace("remove", ""))
                 .collect(Collectors.toList());
     }
 }
