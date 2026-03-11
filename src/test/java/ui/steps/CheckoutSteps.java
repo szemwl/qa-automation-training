@@ -41,4 +41,12 @@ public class CheckoutSteps {
     public boolean isCheckoutOverviewPageOpened() {
         return checkoutPage.isCheckoutOverviewPageOpened();
     }
+
+    public boolean isCheckoutCompletePageOpened() {
+        return checkoutPage.isCheckoutCompletePageOpened();
+    }
+
+    public String getCompleteMessageText() {
+        return checkoutPage.getCompleteMessageText();
+    }
 }

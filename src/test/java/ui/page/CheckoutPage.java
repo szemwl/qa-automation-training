@@ -15,6 +15,9 @@ public class CheckoutPage extends BasePage {
 
     private final By errorContainer = By.cssSelector("[data-test='error']");
 
+    private final By pageTitle = By.className("title");
+    private final By completeMessage = By.className("complete-header");
+
     public CheckoutPage(WebDriver driver) {
         super(driver);
     }
@@ -46,6 +49,16 @@ public class CheckoutPage extends BasePage {
     }
 
     public boolean isCheckoutOverviewPageOpened() {
-        return driver.getCurrentUrl().contains("checkout-step-two");
+        return driver.getCurrentUrl().contains("checkout-step-two.html");
+    }
+
+    public boolean isCheckoutCompletePageOpened() {
+        return driver.getCurrentUrl().contains("checkout-complete.html")
+                && find(pageTitle).getText().equals("Checkout: Complete!")
+                && find(completeMessage).isDisplayed();
+    }
+
+    public String getCompleteMessageText() {
+        return find(completeMessage).getText();
     }
 }

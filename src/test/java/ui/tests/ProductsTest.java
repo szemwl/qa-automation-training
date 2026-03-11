@@ -3,6 +3,7 @@ package ui.tests;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import ui.driver.Browser;
 import ui.driver.DriverFactory;
 import ui.model.Product;
@@ -26,7 +27,7 @@ public class ProductsTest extends BaseTest {
     private static final int EMPTY_CART = 0;
     private static final int ONE_PRODUCT = 1;
     private static final String USERNAME = "standard_user";
-    private static final String GLITCH_USER = "performance_glitch_user";
+    private static final String GLITCH_USERNAME = "performance_glitch_user";
     private static final String PASSWORD = "secret_sauce";
     private static final String PRODUCT_BACKPACK = "sauce-labs-backpack";
     private static final Random RANDOM = new Random();
@@ -237,5 +238,38 @@ public class ProductsTest extends BaseTest {
         assertEquals("Error: First Name is required", checkoutSteps.getErrorContainerText());
         assertEquals(ONE_PRODUCT, productsSteps.getCartBadgeCount());
         assertFalse(checkoutSteps.isCheckoutOverviewPageOpened());
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {GLITCH_USERNAME, USERNAME})
+    void shouldCompletePurchaseForStandardAndGlitchUsers(String name) {
+        driver = DriverFactory.createDriver(Browser.CHROME);
+
+        LoginSteps loginSteps = new LoginSteps(driver);
+        ProductsSteps productsSteps = new ProductsSteps(driver);
+        CheckoutSteps checkoutSteps = new CheckoutSteps(driver);
+
+        loginSteps
+                .openLoginPage()
+                .login(name, PASSWORD);
+
+        productsSteps.addProductToCart(PRODUCT_BACKPACK);
+        productsSteps.openCart();
+
+        assertTrue(productsSteps.isProductNameVisibleInCart(PRODUCT_BACKPACK));
+
+        productsSteps.checkout();
+
+        checkoutSteps
+                .fillCustomerInfo("Joe", "Doe", "123")
+                .continueBtn()
+                .finishBtn();
+
+        assertTrue(checkoutSteps.isCheckoutCompletePageOpened());
+        assertEquals("Thank you for your order!", checkoutSteps.getCompleteMessageText());
+
+        checkoutSteps.backToProductsBtn();
+
+        assertEquals(EMPTY_CART, productsSteps.getCartBadgeCount());
     }
 }
