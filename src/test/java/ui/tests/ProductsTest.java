@@ -128,11 +128,19 @@ public class ProductsTest extends BaseTest {
             assertTrue(productsSteps.isProductNameVisibleInCart(randomProduct));
         }
 
+        List<Product> expectedProducts = productsSteps.getCartProducts();
+
         productsSteps.checkout();
 
         checkoutSteps
                 .fillCustomerInfo("Joe", "Doe", "123")
-                .continueBtn()
+                .continueBtn();
+
+        List<Product> actualOverviewProducts = checkoutSteps.getOverviewProducts();
+
+        assertEquals(expectedProducts, actualOverviewProducts);
+
+        checkoutSteps
                 .finishBtn()
                 .backToProductsBtn();
 

@@ -39,7 +39,7 @@ public class DriverFactory {
                 break;
         }
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         driver.manage().window().maximize();
 
         return driver;

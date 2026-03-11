@@ -1,7 +1,10 @@
 package ui.steps;
 
 import org.openqa.selenium.WebDriver;
+import ui.model.Product;
 import ui.page.CheckoutPage;
+
+import java.util.List;
 
 public class CheckoutSteps {
     private final CheckoutPage checkoutPage;
@@ -48,5 +51,9 @@ public class CheckoutSteps {
 
     public String getCompleteMessageText() {
         return checkoutPage.getCompleteMessageText();
+    }
+
+    public List<Product> getOverviewProducts() {
+        return checkoutPage.getOverviewProducts();
     }
 }

@@ -14,12 +14,16 @@ public class ProductsPage extends BasePage {
     private final By cartBadge = By.className("shopping_cart_badge");
     private final By cartLink = By.className("shopping_cart_link");
     private final By sortDropdown = By.className("product_sort_container");
+
     private final By productName = By.className("inventory_item_name");
     private final By productPrice = By.className("inventory_item_price");
     private final By productDescription = By.className("inventory_item_desc");
+
     private final By productDetailsName = By.className("inventory_details_name");
     private final By productDetailsPrice = By.className("inventory_details_price");
     private final By productDetailsDescription = By.className("inventory_details_desc");
+
+    private final By productCard = By.className("inventory_item");
 
     public ProductsPage(WebDriver driver) {
         super(driver);
@@ -91,9 +95,7 @@ public class ProductsPage extends BasePage {
     }
 
     public Product getProduct(int index) {
-
-        List<WebElement> items = findAll(productName);
-        WebElement item = items.get(index);
+        WebElement item = findAll(productCard).get(index);
 
         String name = item.findElement(productName).getText();
         String desc = item.findElement(productDescription).getText();
@@ -103,7 +105,6 @@ public class ProductsPage extends BasePage {
     }
 
     public Product getProductDetails() {
-
         String name = find(productDetailsName).getText();
         String desc = find(productDetailsDescription).getText();
         String price = find(productDetailsPrice).getText();
