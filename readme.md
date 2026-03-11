@@ -1,4 +1,4 @@
-Java 25  
+Java 17  
 Maven 4  
 JUnit 5  
 Rest Assured 5.4.0  
