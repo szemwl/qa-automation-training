@@ -10,7 +10,7 @@ public class LoginTest extends BaseTest {
 
     @ParameterizedTest
     @EnumSource(Browser.class)
-    public void loginTest(Browser browser) {
+    void loginTest(Browser browser) {
         initDriver(browser);
 
         loginSteps

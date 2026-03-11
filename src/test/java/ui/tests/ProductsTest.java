@@ -31,7 +31,7 @@ public class ProductsTest extends BaseTest {
     private static final Random RANDOM = new Random();
 
     @Test
-    public void shouldAddAndRemoveProductFromCart() {
+    void shouldAddAndRemoveProductFromCart() {
         initDriver();
 
         loginSteps
@@ -54,7 +54,7 @@ public class ProductsTest extends BaseTest {
     }
 
     @Test
-    public void shouldAddThreeRandomProductsAndRemoveOneFromCart() {
+    void shouldAddThreeRandomProductsAndRemoveOneFromCart() {
         initDriver();
 
         int expectedCartItems = 0;
@@ -96,7 +96,7 @@ public class ProductsTest extends BaseTest {
     }
 
     @Test
-    public void shouldCompleteCheckoutWithCorrectProducts() {
+    void shouldCompleteCheckoutWithCorrectProducts() {
         initDriver();
 
         loginSteps
@@ -138,7 +138,7 @@ public class ProductsTest extends BaseTest {
 
     @ParameterizedTest
     @EnumSource(SortType.class)
-    public void shouldSortProducts(SortType sortType) {
+    void shouldSortProducts(SortType sortType) {
         initDriver();
 
         loginSteps
@@ -180,7 +180,7 @@ public class ProductsTest extends BaseTest {
     }
 
     @Test
-    public void shouldMatchProductCardWithDetailsPage() {
+    void shouldMatchProductCardWithDetailsPage() {
         initDriver();
 
         loginSteps
@@ -199,7 +199,7 @@ public class ProductsTest extends BaseTest {
     }
 
     @Test
-    public void shouldShowErrorWhenCheckoutWithEmptyRequiredFields() {
+    void shouldShowErrorWhenCheckoutWithEmptyRequiredFields() {
         initDriver();
 
         loginSteps
