@@ -192,9 +192,9 @@ public class ProductsTest extends BaseTest {
         Product productFromDetails = productsSteps.getProductDetails();
 
         assertAll(
-                () -> assertEquals(productFromList.getName(), productFromDetails.getName()),
-                () -> assertEquals(productFromList.getDescription(), productFromDetails.getDescription()),
-                () -> assertEquals(productFromList.getPrice(), productFromDetails.getPrice())
+                () -> assertEquals(productFromList.name(), productFromDetails.name()),
+                () -> assertEquals(productFromList.description(), productFromDetails.description()),
+                () -> assertEquals(productFromList.price(), productFromDetails.price())
         );
     }
 
