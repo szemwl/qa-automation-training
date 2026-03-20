@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @Feature("Login")
+@DisplayName("Тесты авторизации")
 public class LoginTest extends BaseTest {
 
     @ParameterizedTest

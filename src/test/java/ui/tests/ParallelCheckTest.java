@@ -13,6 +13,7 @@ import static ui.driver.Browser.CHROME;
 import static ui.driver.Browser.FIREFOX;
 
 @Feature("ParallelCheck")
+@DisplayName("Тесты запуска в параллельном режиме")
 public class ParallelCheckTest extends BaseTest {
 
     @Test

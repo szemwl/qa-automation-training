@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Feature("Products")
+@DisplayName("Тесты товаров")
 public class ProductsTest extends BaseTest {
 
     private static final int EMPTY_CART = 0;
