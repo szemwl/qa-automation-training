@@ -13,6 +13,7 @@ import kafka.model.Order;
 import kafka.model.OrderStatus;
 import kafka.service.OrderService;
 import kafka.service.PaymentEventConsumer;
+import kafka.service.PaymentEventHandler;
 import kafka.store.OrderStore;
 import kafka.support.KafkaMessageReader;
 import kafka.support.KafkaOffsetHelper;
@@ -92,6 +93,8 @@ public class KafkaFlowTest {
     @Description("Проверка смены статуса заказа на PAID при успешной обработке события оплаты")
     void consumerTest() {
         OrderStore orderStore = new OrderStore();
+        PaymentEventHandler handler = new PaymentEventHandler(orderStore);
+
         String orderId = "order-paid-" + UUID.randomUUID();
         String groupId = offsetHelper.randomGroupId();
         orderStore.save(new Order(orderId, OrderStatus.NEW));
@@ -99,7 +102,7 @@ public class KafkaFlowTest {
         offsetHelper.moveGroupToEnd(PAYMENTS_TOPIC, groupId);
 
         try (SimpleKafkaProducer producer = new SimpleKafkaProducer(settings);
-             PaymentEventConsumer paymentConsumer = new PaymentEventConsumer(settings, groupId, orderStore)) {
+             PaymentEventConsumer paymentConsumer = new PaymentEventConsumer(settings, groupId, handler)) {
 
             PaymentEvent paymentEvent = new PaymentEvent(
                     "event-" + UUID.randomUUID(),
@@ -124,13 +127,15 @@ public class KafkaFlowTest {
     @Description("Проверка отправки невалидного JSON-сообщения в payments.dlq")
     void negativeDlqTest() {
         OrderStore orderStore = new OrderStore();
+        PaymentEventHandler handler = new PaymentEventHandler(orderStore);
+
         String groupId = offsetHelper.randomGroupId();
         String brokenJson = "{\"eventId\":\"broken-1\",\"orderId\":\"123";
 
         offsetHelper.moveGroupToEnd(PAYMENTS_TOPIC, groupId);
 
         try (SimpleKafkaProducer producer = new SimpleKafkaProducer(settings);
-             PaymentEventConsumer paymentConsumer = new PaymentEventConsumer(settings, groupId, orderStore)) {
+             PaymentEventConsumer paymentConsumer = new PaymentEventConsumer(settings, groupId, handler)) {
 
             String messageFromDlq = messageReader.readNewRawMessage(
                     PAYMENTS_DLQ_TOPIC,
@@ -151,6 +156,8 @@ public class KafkaFlowTest {
     @Description("Проверка, что событие с тем же eventId повторно не влияет на состояние заказа")
     void duplicateEventTest() {
         OrderStore orderStore = new OrderStore();
+        PaymentEventHandler handler = new PaymentEventHandler(orderStore);
+
         String orderId = "order-duplicate-" + UUID.randomUUID();
         String eventId = "event-duplicate-" + UUID.randomUUID();
         String groupId = offsetHelper.randomGroupId();
@@ -159,7 +166,7 @@ public class KafkaFlowTest {
         offsetHelper.moveGroupToEnd(PAYMENTS_TOPIC, groupId);
 
         try (SimpleKafkaProducer producer = new SimpleKafkaProducer(settings);
-             PaymentEventConsumer paymentConsumer = new PaymentEventConsumer(settings, groupId, orderStore)) {
+             PaymentEventConsumer paymentConsumer = new PaymentEventConsumer(settings, groupId, handler)) {
 
             PaymentEvent duplicateEvent = new PaymentEvent(eventId, orderId, true);
 
