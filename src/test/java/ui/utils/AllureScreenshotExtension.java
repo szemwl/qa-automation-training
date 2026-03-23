@@ -1,6 +1,7 @@
 package ui.utils;
 
 import io.qameta.allure.Allure;
+import lombok.Setter;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.OutputType;
@@ -9,13 +10,10 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.ByteArrayInputStream;
 
+@Setter
 public class AllureScreenshotExtension implements AfterTestExecutionCallback {
 
     private WebDriver driver;
-
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
-    }
 
     @Override
     public void afterTestExecution(ExtensionContext context) {
