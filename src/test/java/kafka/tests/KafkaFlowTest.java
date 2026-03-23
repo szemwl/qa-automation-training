@@ -1,5 +1,10 @@
 package kafka.tests;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import kafka.event.OrderCreatedEvent;
 import kafka.event.PaymentEvent;
 import kafka.kafka.KafkaSettings;
@@ -23,7 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Execution(ExecutionMode.SAME_THREAD)
-@DisplayName("Тесты товаров")
+@Feature("Kafka")
+@DisplayName("Kafka-тесты обработки заказов и оплат")
 public class KafkaFlowTest {
 
     private static final String BOOTSTRAP_SERVERS = "localhost:9092";
@@ -36,7 +42,10 @@ public class KafkaFlowTest {
     private final KafkaMessageReader messageReader = new KafkaMessageReader(settings, offsetHelper);
 
     @Test
-    @DisplayName("Kafka smoke - можно отправить и прочитать сообщение")
+    @Story("Smoke")
+    @Severity(SeverityLevel.BLOCKER)
+    @DisplayName("Можно отправить и прочитать сообщение из Kafka")
+    @Description("Проверка отправки и получения сообщения")
     void kafkaSmokeTest() {
         String expected = "smoke-" + UUID.randomUUID();
 
@@ -51,7 +60,10 @@ public class KafkaFlowTest {
     }
 
     @Test
-    @DisplayName("Producer test - заказ создаётся и событие уходит в Kafka")
+    @Story("Order creation")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Заказ создаётся и событие уходит в Kafka")
+    @Description("Проверка создания заказа и отправки события")
     void producerTest() {
         OrderStore orderStore = new OrderStore();
         String orderId = "order-producer-" + UUID.randomUUID();
@@ -74,7 +86,10 @@ public class KafkaFlowTest {
     }
 
     @Test
-    @DisplayName("Consumer test - payment success меняет заказ на PAID")
+    @Story("Payment processing")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Успешный PaymentEvent переводит заказ в статус PAID")
+    @Description("Проверка смены статуса заказа на PAID при успешной обработке события оплаты")
     void consumerTest() {
         OrderStore orderStore = new OrderStore();
         String orderId = "order-paid-" + UUID.randomUUID();
@@ -96,18 +111,21 @@ public class KafkaFlowTest {
             paymentConsumer.processNextMessage(Duration.ofSeconds(10));
 
             Order updatedOrder = orderStore.findById(orderId)
-                    .orElseThrow(() -> new AssertionError("Заказ не найден после обработки payment event"));
+                    .orElseThrow(() -> new AssertionError("Заказ не найден после обработки PaymentEventConsumer"));
 
             assertEquals(OrderStatus.PAID, updatedOrder.status());
         }
     }
 
     @Test
-    @DisplayName("Negative test - битый JSON уходит в DLQ")
+    @Story("DLQ")
+    @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Битый JSON отправляется в DLQ")
+    @Description("Проверка отправки невалидного JSON-сообщения в payments.dlq")
     void negativeDlqTest() {
         OrderStore orderStore = new OrderStore();
         String groupId = offsetHelper.randomGroupId();
-        String brokenJson = "{\"eventId\":\"broken-1\",\"orderId\":\"123\",\"success\":tru";
+        String brokenJson = "{\"eventId\":\"broken-1\",\"orderId\":\"123";
 
         offsetHelper.moveGroupToEnd(PAYMENTS_TOPIC, groupId);
 
@@ -127,7 +145,10 @@ public class KafkaFlowTest {
     }
 
     @Test
-    @DisplayName("Duplicate test - повторное событие не обрабатывается второй раз")
+    @Story("Idempotency")
+    @Severity(SeverityLevel.NORMAL)
+    @DisplayName("Повторное событие не обрабатывается второй раз")
+    @Description("Проверка, что событие с тем же eventId повторно не влияет на состояние заказа")
     void duplicateEventTest() {
         OrderStore orderStore = new OrderStore();
         String orderId = "order-duplicate-" + UUID.randomUUID();
