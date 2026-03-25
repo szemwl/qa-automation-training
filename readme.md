@@ -13,8 +13,8 @@ AspectJ 1.9.22
 
 ---
 
-По умолчанию данные сохраняются в in-memory HashMap, для того чтобы пересохранить их в PostgreSQL  
-надо расскомитить строчку в application.properties: --> #storage.type=postgres  
+По умолчанию данные сохраняются в in-memory HashMap, для того чтобы начать сохранять их в PostgreSQL  
+надо раскомментировать строчку в application.properties: --> #storage.type=postgres  
 
 ---
 

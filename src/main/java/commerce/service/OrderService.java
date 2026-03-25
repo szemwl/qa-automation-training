@@ -5,7 +5,6 @@ import commerce.kafka.SimpleKafkaProducer;
 import commerce.model.Order;
 import commerce.model.OrderStatus;
 import commerce.store.OrderStore;
-import commerce.store.memory.InMemoryOrderStore;
 
 public class OrderService {
 

@@ -14,14 +14,6 @@ public class KafkaMessageReader {
     private final KafkaOffsetHelper offsetHelper;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public KafkaMessageReader(String bootstrapServers) {
-        this(new KafkaSettings(bootstrapServers));
-    }
-
-    public KafkaMessageReader(KafkaSettings settings) {
-        this(settings, new KafkaOffsetHelper(settings));
-    }
-
     public KafkaMessageReader(KafkaSettings settings, KafkaOffsetHelper offsetHelper) {
         this.settings = settings;
         this.offsetHelper = offsetHelper;

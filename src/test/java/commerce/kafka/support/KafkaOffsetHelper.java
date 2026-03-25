@@ -14,10 +14,6 @@ public class KafkaOffsetHelper {
 
     private final KafkaSettings settings;
 
-    public KafkaOffsetHelper(String bootstrapServers) {
-        this(new KafkaSettings(bootstrapServers));
-    }
-
     public KafkaOffsetHelper(KafkaSettings settings) {
         this.settings = settings;
     }
