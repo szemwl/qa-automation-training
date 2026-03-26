@@ -122,11 +122,7 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar"
                     </argLine>
-                    <properties>
-                        <configurationParameters>
-                            junit.jupiter.tags.exclude = ${excludedTags}
-                        </configurationParameters>
-                    </properties>
+                    <excludedGroups>${excludedTags}</excludedGroups>
                 </configuration>
             </plugin>
 
