@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Feature("Kafka")
-@Tag("Kafka")
+@Tag("kafka")
 @DisplayName("Kafka-тесты обработки заказов и оплат")
 public class KafkaFlowTest extends BaseTest {
 
