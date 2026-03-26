@@ -13,8 +13,15 @@ AspectJ 1.9.22
 
 ---
 
-По умолчанию данные сохраняются в in-memory HashMap, для того чтобы начать сохранять их в PostgreSQL  
-надо раскомментировать строчку в application.properties: --> #storage.type=postgres  
+По умолчанию Kafka-тесты работают с in-memory хранилищем (HashMap).  
+Выбор типа хранилища задаётся в файле `src/test/resources/config.properties`  
+через свойство `test.config.file`:
+
+### Для тестирования in-memory
+#test.config.file=application-test-memory.properties
+
+### Для тестирования postgreSQL
+#test.config.file=application-test-postgres.properties
 
 ---
 

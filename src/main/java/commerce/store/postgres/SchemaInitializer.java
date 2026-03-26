@@ -36,8 +36,8 @@ public class SchemaInitializer {
                     )
                     """);
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Не удалось инициализировать схему БД", e);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Не удалось инициализировать схему БД", ex);
         }
     }
 }

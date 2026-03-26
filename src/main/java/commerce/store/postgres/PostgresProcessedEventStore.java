@@ -29,8 +29,8 @@ public class PostgresProcessedEventStore implements ProcessedEventStore {
             statement.setString(1, eventId);
             return statement.executeUpdate() > 0;
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Не удалось отметить событие как обработанное: " + eventId, e);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Не удалось отметить событие как обработанное: " + eventId, ex);
         }
     }
 
@@ -51,8 +51,8 @@ public class PostgresProcessedEventStore implements ProcessedEventStore {
                 return rs.next();
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Не удалось проверить событие: " + eventId, e);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Не удалось проверить событие: " + eventId, ex);
         }
     }
 
@@ -72,8 +72,8 @@ public class PostgresProcessedEventStore implements ProcessedEventStore {
             }
             return 0;
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Не удалось посчитать обработанные события", e);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Не удалось посчитать обработанные события", ex);
         }
     }
 }

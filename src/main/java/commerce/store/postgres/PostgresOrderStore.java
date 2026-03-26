@@ -34,8 +34,8 @@ public class PostgresOrderStore implements OrderStore {
             statement.setString(2, order.status().name());
             statement.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Не удалось сохранить заказ: " + order.id(), e);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Не удалось сохранить заказ: " + order.id(), ex);
         }
     }
 
@@ -61,8 +61,8 @@ public class PostgresOrderStore implements OrderStore {
                 return Optional.empty();
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Не удалось найти заказ: " + orderId, e);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Не удалось найти заказ: " + orderId, ex);
         }
     }
 
@@ -85,8 +85,8 @@ public class PostgresOrderStore implements OrderStore {
                 throw new IllegalArgumentException("Заказ не найден: " + orderId);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Не удалось обновить статус заказа: " + orderId, e);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Не удалось обновить статус заказа: " + orderId, ex);
         }
     }
 }
