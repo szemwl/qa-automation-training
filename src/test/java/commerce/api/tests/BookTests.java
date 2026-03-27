@@ -3,6 +3,11 @@ package commerce.api.tests;
 import commerce.api.model.Book;
 import commerce.api.spec.ResponseSpec;
 import commerce.data.TestDataGenerator;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -17,11 +22,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@Feature("Управление книгами")
 @Tag("api")
 @DisplayName("Тесты API для книг")
 public class BookTests extends BaseTest {
 
     @Test
+    @Story("Создание книги")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Проверяет, что книга успешно создаётся и в ответе возвращается её id и title")
     @DisplayName("Создание книги")
     void testCreateBook() {
 
@@ -34,6 +43,9 @@ public class BookTests extends BaseTest {
     }
 
     @Test
+    @Story("Получение книги по id")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Проверяет, что книгу по её id")
     @DisplayName("Получение книги по id")
     void testGetBookById() {
 
@@ -48,6 +60,9 @@ public class BookTests extends BaseTest {
     }
 
     @Test
+    @Story("Получение списка книг")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Проверяет, что API возвращает непустой список книг")
     @DisplayName("Получение списка всех книг")
     void testGetAllBooks() {
 
@@ -58,6 +73,9 @@ public class BookTests extends BaseTest {
     }
 
     @Test
+    @Story("Удаление книги")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Проверяет, что ранее созданную книгу можно удалить")
     @DisplayName("Удаление книги")
     void testDeleteBook() {
 
@@ -71,6 +89,9 @@ public class BookTests extends BaseTest {
     }
 
     @Test
+    @Story("Получение несуществующей книги")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Проверяет, что при запросе несуществующей книги по API возвращает 404")
     @DisplayName("Проверка получения несуществующей книги")
     void testNegativeGetNonExistingBook() {
 
@@ -83,6 +104,9 @@ public class BookTests extends BaseTest {
 
     @ParameterizedTest(name = "Создание книги с набором данных: {0}")
     @MethodSource("commerce.data.TestDataGenerator#generateBooks")
+    @Story("Создание книги с разными данными")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Проверяет создание книги на нескольких наборах тестовых данных")
     @DisplayName("Создание книги с разными тестовыми данными")
     void testCreateBookParameterized(Book book) {
 
@@ -92,6 +116,9 @@ public class BookTests extends BaseTest {
     }
 
     @Test
+    @Story("Валидация JSON schema")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Проверяет, что ответ на осздание книги соответствует JSON-схеме")
     @DisplayName("Проверка схемы ответа книги")
     void testBookSchema() {
 
